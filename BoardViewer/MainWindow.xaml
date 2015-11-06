@@ -42,8 +42,14 @@
                        ItemTemplate="{StaticResource CellTemplate}" />
         </DataTemplate>
     </Window.Resources>
-    <Grid>
-        <ItemsControl x:Name="TheListView" HorizontalAlignment="Left" Height="321" VerticalAlignment="Top" Width="519" Margin="0" ItemTemplate="{StaticResource RowTemplate}">
+    <DockPanel LastChildFill="True" Margin="5">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,5">
+            <Button Content="Tick" Margin="0" Click="Tick_Button_Click"/>
+            <Button Content="Run" Margin="5,0,5,0" Click="Run_Button_Click" />
+            <Button Content="Stop" Margin="0" Click="Stop_Button_Click" />
+        </StackPanel>
+
+        <ItemsControl x:Name="TheListView" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" ItemTemplate="{StaticResource RowTemplate}">
         </ItemsControl>
-    </Grid>
+    </DockPanel>
 </Window>

@@ -10,16 +10,35 @@ namespace BoardViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<List<bool>> Cells { get; set; }
         private Board currentBoard;
 
         public MainWindow()
         {
             currentBoard = new FauxGameOfLife();
-            Cells = currentBoard.ToList();
 
             InitializeComponent();
-            TheListView.ItemsSource = Cells;
+            TheListView.ItemsSource = currentBoard.ToList();
+        }
+
+        private void InitiateTick()
+        {
+            currentBoard.Tick();
+            TheListView.ItemsSource = currentBoard.ToList();
+        }
+
+        private void Tick_Button_Click(object sender, RoutedEventArgs e)
+        {
+            InitiateTick();
+        }
+
+        private void Run_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Stop_Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
