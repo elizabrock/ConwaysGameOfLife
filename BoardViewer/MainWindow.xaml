@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BoardViewer"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
@@ -34,7 +35,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <DataTemplate x:Key="RowTemplate">
             <ItemsControl BorderThickness="0" 
                        ItemsSource="{Binding}" 
@@ -44,9 +45,11 @@
     </Window.Resources>
     <DockPanel LastChildFill="True" Margin="5">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,5">
-            <Button Content="Tick" Margin="0" Click="Tick_Button_Click"/>
-            <Button Content="Run" Margin="5,0,5,0" Click="Run_Button_Click" />
-            <Button Content="Stop" Margin="0" Click="Stop_Button_Click" />
+            <Button x:Name="TickButton" Content="Tick" Margin="0" Click="Tick_Button_Click" />
+            <Button x:Name="RunButton" Content="Run" Margin="5,0,5,0" Click="Run_Button_Click" />
+            <Button x:Name="StopButton" Content="Stop" Margin="0" Click="Stop_Button_Click" IsEnabled="False" />
+            <Label Content="Speed:"/>
+            <xctk:DoubleUpDown x:Name="RunSpeed" Value="0.50" Increment="0.25" Minimum="0.25" ValueChanged="RunSpeed_ValueChanged" IsEnabled="False" />
         </StackPanel>
 
         <ItemsControl x:Name="TheListView" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" ItemTemplate="{StaticResource RowTemplate}">
