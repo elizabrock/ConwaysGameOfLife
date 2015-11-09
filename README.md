@@ -14,3 +14,8 @@ Exercise for Cohort Juniper (10)
 In order to visualize your particular class, change the class that is being initialized on the first line of the MainWindow constructor 
 
 I suggest that your implementation's constructor take an argument that sets up the initial board state.
+
+
+# Credits
+
+Inspiration for the XAML Conway's viewer came from: http://www.thinkbottomup.com.au/site/blog/Game_of_Life_in_XAML_WPF_using_embedded_Python
