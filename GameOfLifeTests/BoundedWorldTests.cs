@@ -74,7 +74,60 @@ namespace GameOfLifeTests
             Assert.AreEqual(expected_number_of_alive_cells, actual_number_of_alive_cells);
             /* End Assert */
         }
-    
+
+        [TestMethod]
+        public void BoundedWorldEnsureThereAreCells()
+        {
+            /* Begin Arrange */
+            int width = 80;
+            int height = 80;
+            BoundedWorld my_world = new BoundedWorld(width, height);
+            /* End Arrange */
+
+            /* Begin Act */
+            int x = 4;
+            int y = 3;
+            my_world.AddCell(x, y);
+            /* End Act */
+
+            /* Begin Assert */
+            Assert.AreEqual(1, my_world.AliveCellCount());
+            /* End Assert */
+        }
+
+        [TestMethod]
+        public void BoundedWorldApplyUnderPopulationToOneCell()
+        {
+            /* Begin Arrange */
+            BoundedWorld my_world = new BoundedWorld(10, 10);
+            my_world.AddCell(4, 5);
+            /* End Arrange */
+
+            /* Begin Act */
+            my_world.UnderPopulationRule();
+            /* End Act */
+
+            /* Begin Assert */
+            Assert.AreEqual(0, my_world.AliveCellCount());
+            /* End Assert */
+        }
+
+        [TestMethod]
+        public void BoundedWorldEnsureThereAreZeroLiveNeighbors()
+        {
+            /* Begin Arrange */
+            BoundedWorld my_world = new BoundedWorld(10, 10);
+            /* End Arrange */
+
+            /* Begin Act */
+            int expected_alive_neighbors = 0;
+            int actual_alive_neighbors = my_world.AliveNeighborCount(4, 5);
+            /* End Act */
+
+            /* Begin Assert */
+            Assert.AreEqual(expected_alive_neighbors, actual_alive_neighbors);
+            /* End Assert */
+        }
 
         [TestMethod]
         public void MyTestMethod()
