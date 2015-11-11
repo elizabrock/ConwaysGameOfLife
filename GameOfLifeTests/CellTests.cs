@@ -22,5 +22,28 @@ namespace GameOfLifeTests
             Cell my_cell = new Cell();
             Assert.IsFalse(my_cell.IsAlive);
         }
+
+        [TestMethod]
+        public void CellEnsureCellHasAPosition()
+        {
+            Cell my_cell = new Cell();
+            Assert.AreEqual(0, my_cell.X);
+            Assert.AreEqual(0, my_cell.Y);
+        }
+
+        [TestMethod]
+        public void CellEnsureWeCanProvidePosition()
+        {
+            int x = 1;
+            int y = 2;
+            Cell my_cell = new Cell { X = x, Y = y};
+            /* The same as:  
+            Cell my_cell = new Cell();
+            my_cell.X = x;
+            my_cell.Y = y;
+            */
+            Assert.AreEqual(x, my_cell.X);
+            Assert.AreEqual(y, my_cell.Y);
+        }
     }
 }
