@@ -11,13 +11,15 @@ namespace ConwaysGameOfLife
         private Cell[,] cells;
         public int Height { get; set; }
         public int Width { get; set; }
+        private List<Cell> to_die;
+        private List<Cell> to_live; 
 
-        public BoundedWorld()
-        {
-        }
+        public BoundedWorld() : this(10,10) {}
 
         public BoundedWorld(int width, int height)
         {
+            to_die = new List<Cell>();
+            to_live = new List<Cell>();
             cells = new Cell[height, width];
             Width = width;
             Height = height;
@@ -32,7 +34,14 @@ namespace ConwaysGameOfLife
 
         public void Tick()
         {
-            
+            foreach (var cell in to_die)
+            {
+                cells[cell.Y, cell.X].IsAlive = false;
+            }
+            foreach (var cell in to_live)
+            {
+                cells[cell.Y, cell.X].IsAlive = true;
+            }
         }
 
         public List<List<bool>> ToList()
@@ -74,7 +83,18 @@ namespace ConwaysGameOfLife
 
         public void UnderPopulationRule()
         {
-            throw new NotImplementedException();
+            // Iterates through cells?
+            for (int row = 0; row < Height; row++)
+            {
+                for (int col = 0; col < Width; col++)
+                {
+                    if (AliveNeighborCount(row, col) < 2)
+                    {
+                        // Keep track that we should kill off this cell;
+                        to_die.Add(new Cell { X = row, Y = col });
+                    }
+                }
+            }
         }
 
         private bool IsCellAlive(Cell c)
@@ -85,17 +105,38 @@ namespace ConwaysGameOfLife
         // This can be refactored
         public int AliveNeighborCount(int x, int y)
         {
+            return GetNeighbors(x, y).FindAll(IsCellAlive).Count;
+        }
+
+        private Cell TryGetCell(int pos_x, int pos_y)
+        {
+            Cell c = null;
+            try
+            {
+                c = cells[pos_y, pos_x];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                c = null;
+            }
+            return c;
+        }
+
+        public List<Cell> GetNeighbors(int x, int y)
+        {
             Cell above, below, right, left;
             Cell top_right, top_left, bottom_left, bottom_right;
-            List<Cell> neighbors = new List<Cell>(); 
-            above = cells[y, x - 1];
-            below = cells[y, x + 1];
-            right = cells[y + 1, x];
-            left = cells[y - 1, x];
-            top_right = cells[y + 1, x - 1];
-            top_left = cells[y - 1, x - 1];
-            bottom_right = cells[y + 1, x + 1];
-            bottom_left = cells[y - 1, x + 1];
+            List<Cell> neighbors = new List<Cell>();
+
+            above = TryGetCell(x - 1, y);
+            below = TryGetCell(x + 1, y);
+            right = TryGetCell(x,y + 1);
+            left = TryGetCell(x,y - 1);
+            top_right = TryGetCell(x-1,y + 1);
+            top_left = TryGetCell(x-1,y - 1);
+            bottom_right = TryGetCell(x+1,y + 1);
+            bottom_left = TryGetCell(x+1,y - 1);
+
             neighbors.Add(above);
             neighbors.Add(below);
             neighbors.Add(right);
@@ -105,7 +146,12 @@ namespace ConwaysGameOfLife
             neighbors.Add(bottom_left);
             neighbors.Add(bottom_right);
 
-            return neighbors.FindAll(IsCellAlive).Count;
+            return neighbors.FindAll(IsNotNull);
+        }
+
+        private bool IsNotNull(Cell obj)
+        {
+            return obj != null;
         }
     }
 }

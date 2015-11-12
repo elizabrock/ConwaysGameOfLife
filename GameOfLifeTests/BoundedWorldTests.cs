@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ConwaysGameOfLife;
+using System.Collections.Generic;
 
 namespace GameOfLifeTests
 {
@@ -105,6 +106,7 @@ namespace GameOfLifeTests
 
             /* Begin Act */
             my_world.UnderPopulationRule();
+            my_world.Tick();
             /* End Act */
 
             /* Begin Assert */
@@ -126,6 +128,22 @@ namespace GameOfLifeTests
 
             /* Begin Assert */
             Assert.AreEqual(expected_alive_neighbors, actual_alive_neighbors);
+            /* End Assert */
+        }
+
+        [TestMethod]
+        public void BoundedWorldEnsureEdgeCellsHaveCorrectNeighbors()
+        {
+            /* Begin Arrange */
+            BoundedWorld my_world = new BoundedWorld(10, 10);
+            /* End Arrange */
+
+            /* Begin Act */
+            List<Cell> neighbors = my_world.GetNeighbors(0, 0);
+            /* End Act */
+
+            /* Begin Assert */
+            Assert.AreEqual(3, neighbors.Count);
             /* End Assert */
         }
 
